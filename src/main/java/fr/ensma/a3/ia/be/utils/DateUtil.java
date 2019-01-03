@@ -3,7 +3,7 @@ package fr.ensma.a3.ia.be.utils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
+@Deprecated 
 public class DateUtil {
 
 	static SimpleDateFormat sdf;
