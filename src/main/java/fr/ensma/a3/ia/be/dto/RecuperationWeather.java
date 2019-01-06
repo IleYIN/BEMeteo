@@ -1,7 +1,9 @@
 package fr.ensma.a3.ia.be.dto;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -115,22 +117,19 @@ public class RecuperationWeather {
 		try {
 
 			URLConnection uc = service.openConnection(); 
-
-			//On y crée un flux de lecture 
 			InputStream in = uc.getInputStream(); 
-
-			//On lit le premier bit 
-			int c = in.read(); 
-
+			InputStreamReader isr = new InputStreamReader(in);
+			BufferedReader br = new BufferedReader(isr);
+			
 			//On crée un StringBuilder pour par la suite y ajouter tout les bits lus 
 			StringBuilder build = new StringBuilder(); 
 
+			char[] flush = new char[1024];
+			int len = 0; 
 			//Tant que c n'est pas égal au bit indiquant la fin d'un flux... 
-			while (c != -1) { 
+			while ((len = br.read(flush)) != -1) { 
 				//...on l'ajoute dans le StringBuilder... 
-				build.append((char) c); 
-				//...on lit le suivant 
-				c = in.read(); 
+				build.append(flush,0,len); 
 			} 
 
 			//On retourne le code de la page 

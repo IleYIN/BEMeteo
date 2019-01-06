@@ -82,7 +82,7 @@ public class WeatherReportDAO {
 				ps.setObject(13, currentTime, Types.TIMESTAMP);
 				ps.execute();
 
-				logger.debug("insert into "+  tableName + " finished");
+				logger.debug(report.toString()+ " has been inserted into "+  tableName);
 
 			} catch (Exception e) {
 				logger.error("could not insert into "+tableName, e);
@@ -93,7 +93,7 @@ public class WeatherReportDAO {
 				JDBCUtil.close(ps, conn);
 			}
 		} else {
-			logger.debug("There's no new information for "+ tableName);
+			logger.debug("There's no new information for the position "+ pos.toString() +"for the table "+ tableName);
 			//System.out.println("pas de nouvelle information sur le tableau " + TABLE_NAME +" pour la position "+ po.toString()+" "+DateUtil.setDate(new Date()));
 
 		} 

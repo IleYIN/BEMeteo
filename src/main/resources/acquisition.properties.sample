@@ -1,0 +1,11 @@
+# postgresql configuration
+postgresql.ip=193.55.163.218
+postgresql.port=5432
+postgresql.db=weather
+postgresql.user=weatherman
+postgresql.password=BqsnP6e9Op
+postgresql.tablename.weatherReport=weather_now
+postgresql.tablename.weatherForecast=weather_forecast
+# position configuration
+position.latitude=46.6613
+position.longitude=0.3614

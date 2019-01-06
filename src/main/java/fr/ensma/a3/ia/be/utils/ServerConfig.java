@@ -20,9 +20,6 @@ public interface ServerConfig extends Config {
 	@Key("postgresql.db")
 	String pgDatabase();
 
-	//    @Key("postgresql.table_name")
-	//    String pgTableName();
-
 	@Key("postgresql.user")
 	String pgUser();
 

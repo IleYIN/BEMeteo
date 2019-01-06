@@ -1,4 +1,4 @@
-package fr.ensma.a3.ia.be.service;
+package fr.ensma.a3.ia.be.task;
 
 import java.util.Timer;
 
@@ -18,6 +18,6 @@ public class WeatherTimer {
 //		monTimer.scheduleAtFixedRate(tch2, 10000l, 12000l);
 		
 		monTimer.scheduleAtFixedRate(tch1, 0l, 900000l);
-		monTimer.scheduleAtFixedRate(tch2, 10000l,(1000*3600*24));
+		monTimer.scheduleAtFixedRate(tch2, 10000l,(1000*3600*2));
 	}
 }

@@ -20,13 +20,13 @@ import fr.ensma.a3.ia.be.utils.JDBCUtil;
 import fr.ensma.a3.ia.be.utils.ServerConfig;
 
 public class WeatherForecastDAO {
-	
+
 	private static final Logger logger = LogManager.getLogger(WeatherReportDAO.class);
 	private static fr.ensma.a3.ia.be.utils.ServerConfig cfg = ConfigCache.getOrCreate(ServerConfig.class);
 
 	private final String tableName;
 	private final Position pos;
-	
+
 	private Connection conn = null;
 	private PreparedStatement ps = null;
 	private Statement st = null;
@@ -41,38 +41,35 @@ public class WeatherForecastDAO {
 	public void addWeatherForecast(List<Weather> listWeather) {
 
 		Timestamp currentTime = new Timestamp(new Date().getTime());
-		Timestamp lastInsertedTime = null;
 
-		conn = JDBCUtil.getPostgreConn();
+		for(Weather weatherfore : listWeather) {
 
-		try {
-			st = conn.createStatement();
-			String query = "select max(insert_time) from "+ tableName +" where latitude="+ pos.getLat()+" and longitude="+pos.getLon()+";";
-			rs = st.executeQuery(query);
-
-			while (rs.next()) {
-				lastInsertedTime = rs.getTimestamp("max");
-			}
-		} catch (SQLException e) {
-			logger.error("Could not get lastInsertedDate",e);
-			
-		} finally {
-			JDBCUtil.close( rs, st, conn);
-		}
-		
-		
-		//si la différence entres judgeinserttime et time est moins que difftime
-		//il est possible que judgeinserttime est null si la table est vide quand on lance le programm
-
-		//24h update
-		if(lastInsertedTime==null || lastInsertedTime.getTime() <= (currentTime.getTime() - (1000*3600*24)) ) {
-
-			conn = JDBCUtil.getPostgreConn();
-
-//		if (!(result==null) && !result.isEmpty() && (judgeinserttime==null||time.getTime()-judgeinserttime.getTime()>=difftime)) {
+			Timestamp lastInsertedTime = null;
 
 			try {
-				for(Weather weatherfore : listWeather) {
+				conn = JDBCUtil.getPostgreConn();
+				st = conn.createStatement();
+				String query = "select max(insert_time) from "+ tableName +" where latitude="
+						+ pos.getLat()+" and longitude="+pos.getLon()+" and weather_time='"+weatherfore.getDate()+"';";
+				rs = st.executeQuery(query);
+
+				while (rs.next()) {
+					lastInsertedTime = rs.getTimestamp("max");
+				}
+			} catch (SQLException e) {
+				logger.error("Could not get lastInsertedTime",e);
+
+			} finally {
+				JDBCUtil.close( rs, st, conn);
+			}
+
+
+			//24h update  or 3h new weather_time information (when lastInsertedTime==null)
+			if(lastInsertedTime==null || lastInsertedTime.getTime() <= (currentTime.getTime() - (1000*3600*24)) ) {
+
+				conn = JDBCUtil.getPostgreConn();
+
+				try {
 
 					ps = conn.prepareStatement("insert into "+ tableName +" (weather_time,latitude,longitude,temperature,pressure,humidity,weather_description,clouds,wind_speed,wind_direction,rain,snow,insert_time) values (?,?,?,?,?,?,?,?,?,?,?,?,?)");
 					ps.setObject(1, weatherfore.getDate(),Types.TIMESTAMP);
@@ -90,25 +87,20 @@ public class WeatherForecastDAO {
 					ps.setObject(13, currentTime, Types.TIMESTAMP);
 					ps.execute();
 
+					logger.debug(weatherfore.toString()+ " has been inserted into "+  tableName);
+
+				} catch (Exception e) {
+					logger.error("could not insert into "+tableName, e);
+
+				} finally {
+
+					JDBCUtil.close(ps, conn);
 				}
-				
-				logger.debug("insert into "+  tableName + " finished");
-				
-			} catch (Exception e) {
-				logger.error("could not insert into "+tableName, e);
-//				System.out.println(e.getMessage());
-//				System.out.println(DateUtil.setDate(new Date())); 
-			} finally {
+			} else {
+				logger.debug("There's no new information for the position "+pos.toString()+" for the table "+ tableName);
+			} 
 
-				JDBCUtil.close(ps, conn);
-			}
-		} else {
-			logger.debug("There's no new information for "+ tableName);
-//			System.out.println("pas de nouvelle information sur le tableau " + TABLE_NAME +" pour la position "+ po.toString()+" "+DateUtil.setDate(new Date()));
-
-		} 
+		}
 
 	}
-
-
 }

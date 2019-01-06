@@ -1,4 +1,4 @@
-package fr.ensma.a3.ia.be.service;
+package fr.ensma.a3.ia.be.task;
 
 import java.util.List;
 import java.util.TimerTask;
