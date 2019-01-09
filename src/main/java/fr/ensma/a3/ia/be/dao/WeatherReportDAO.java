@@ -1,4 +1,4 @@
-package fr.ensma.a3.ia.be.meteo.dao;
+package fr.ensma.a3.ia.be.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

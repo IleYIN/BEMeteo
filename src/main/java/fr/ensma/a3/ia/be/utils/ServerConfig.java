@@ -5,11 +5,11 @@ import org.aeonbits.owner.Config;
 import org.aeonbits.owner.Config.Sources;
 
 
-@Sources("classpath:acquisition.properties")
+@Sources("classpath:weather.properties")
 public interface ServerConfig extends Config {
 
-	@Key("postgresql.driver")
-	String pgDriver();
+	//@Key("postgresql.driver")
+	//String pgDriver();
 
 	@Key("postgresql.ip")
 	String pgAddress();

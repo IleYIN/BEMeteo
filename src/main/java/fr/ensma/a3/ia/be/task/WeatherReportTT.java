@@ -5,10 +5,10 @@ import java.util.TimerTask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.ensma.a3.ia.be.dao.WeatherReportDAO;
 import fr.ensma.a3.ia.be.dto.Position;
 import fr.ensma.a3.ia.be.dto.RecuperationWeather;
 import fr.ensma.a3.ia.be.dto.Weather;
-import fr.ensma.a3.ia.be.meteo.dao.WeatherReportDAO;
 
 public class WeatherReportTT extends TimerTask{
 
