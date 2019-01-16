@@ -34,7 +34,12 @@ public class WeatherForecastTT extends TimerTask{
 
 		if (forecast == null || forecast.isEmpty()) {
 
-			logger.error("Weather forecast is null or empty, retry to get weather forecast...");
+			logger.error("Weather forecast is null or empty, retry to get weather forecast in 1 min...");
+			try {
+				Thread.sleep(60000);
+			} catch (InterruptedException e) {
+				//ignore error
+			}
 			forecast = service.getWeatherForecast();
 
 			if (forecast == null || forecast.isEmpty()) {

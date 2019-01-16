@@ -64,8 +64,9 @@ public class WeatherForecastDAO {
 			}
 
 
-			//24h update  or 3h new weather_time information (when lastInsertedTime==null)
-			if(lastInsertedTime==null || lastInsertedTime.getTime() <= (currentTime.getTime() - (1000*3600*24)) ) {
+			//update everyday (here we use 23h because we check the update every 2h) or every 3h for new weather_time information (when lastInsertedTime==null)
+			//openweathermap updates the weather forecast everyday at about 9:00 for the same weather_time
+			if(lastInsertedTime==null || lastInsertedTime.getTime() <= (currentTime.getTime() - (1000*3600*23)) ) {
 
 				conn = JDBCUtil.getPostgreConn();
 

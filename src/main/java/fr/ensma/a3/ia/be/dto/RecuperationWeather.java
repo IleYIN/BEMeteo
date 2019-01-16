@@ -21,8 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Classe permettant de recuperer le contenu json fournie par API meteo pour une position donnée
- * 
+ * Classe permettant de recuperer et traiter le contenu json fournie par API meteo pour une position donnée
  */
 public class RecuperationWeather {
 
@@ -51,17 +50,7 @@ public class RecuperationWeather {
 	}
 
 
-	/**
-	 * Méthode qui permet de retourner au format string le contenu (ie la trame météo au format Json)  à l'URL adresse
-	 * 
-	 * @param adresse
-	 * 
-	 * @return toreturn
-	 * 
-	 * @throws MalformedURLException
-	 * @throws IOException
-	 */
-
+	
 
 
 	public Weather getCurrentWeather() {
@@ -110,7 +99,11 @@ public class RecuperationWeather {
 	}
 
 
-
+	/**
+	 *  Méthode qui permet de retourner au format string le contenu (ie la trame météo au format Json)  à l'URL adress
+	 * @param service
+	 * @return
+	 */
 	private String getJsonDataFromURL(URL service)  { 
 
 

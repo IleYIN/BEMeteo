@@ -57,8 +57,7 @@ public class WeatherReportDAO {
 			JDBCUtil.close( rs, st, conn);
 		}
 
-		//si la différence entres judgeinserttime et time est moins que difftime
-		//il est possible que judgeinserttime est null si la table est vide quand on lance le programm
+
 		if (lastWeatherTime == null || lastWeatherTime.before(report.getDate())) {
 
 			conn = JDBCUtil.getPostgreConn();
@@ -66,8 +65,6 @@ public class WeatherReportDAO {
 
 				ps = conn.prepareStatement("insert into "+ tableName +" (weather_time,latitude,longitude,temperature,pressure,humidity,weather_description,clouds,wind_speed,wind_direction,rain,snow,insert_time) values (?,?,?,?,?,?,?,?,?,?,?,?,?)");
 				ps.setObject(1, report.getDate(),Types.TIMESTAMP);
-				//System.out.println("insert_weathertime_"+report.getDate());
-				
 				ps.setObject(2, report.getLat());
 				ps.setObject(3, report.getLon());
 				ps.setObject(4, report.getTemperature());
@@ -93,7 +90,7 @@ public class WeatherReportDAO {
 				JDBCUtil.close(ps, conn);
 			}
 		} else {
-			logger.debug("There's no new information for the position "+ pos.toString() +"for the table "+ tableName);
+			logger.debug("There's no new information for the position "+ pos.toString() +" for the table "+ tableName);
 			//System.out.println("pas de nouvelle information sur le tableau " + TABLE_NAME +" pour la position "+ po.toString()+" "+DateUtil.setDate(new Date()));
 
 		} 

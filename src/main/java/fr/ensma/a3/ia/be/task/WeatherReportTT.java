@@ -33,7 +33,12 @@ public class WeatherReportTT extends TimerTask{
 
 		if (report == null) {
 
-			logger.error("Current weather data is null, retry to get current weather...");
+			logger.error("Current weather data is null, retry to get current weather in 1 min...");
+			try {
+				Thread.sleep(60000);
+			} catch (InterruptedException e) {
+				//ignore error
+			}
 			report = service.getCurrentWeather();
 
 			if (report == null) {
